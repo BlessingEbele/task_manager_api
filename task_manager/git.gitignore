@@ -1,0 +1,13 @@
+# Python
+*.pyc
+__pycache__
+task_manager_env/
+
+# Django
+db.sqlite3
+/media
+/static
+
+# IDEs
+.vscode/
+.idea/
