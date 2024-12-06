@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'tasks',
+    
 ]
 
 MIDDLEWARE = [
@@ -67,7 +69,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'task_manager.wsgi.application'
+WSGI_APPLICATION = 'task_manager_api.wsgi.application'
 
 
 # Database
