@@ -1,16 +1,16 @@
-class TaskListView(View):
-    def get(self, request):
-        tasks = Task.objects.all()
-        tasks_list = [
-            {
-                "id": task.id,
-                "title": task.title,
-                "description": task.description,
-                "status": task.status,
-                "created_at": task.created_at
-            }
-            for task in tasks
-        ]
-        return JsonResponse(tasks_list, safe=False)
+from django.urls import path
+from .views import TaskCreateView, TaskListView
+
+urlpatterns = [
+    path('tasks/', TaskListView.as_view(), name='task-list'),
+    path('tasks/create/', TaskCreateView.as_view(), name='task-create'),
+]
 
 
+from .views import TaskListCreateView, TaskDetailView, MarkTaskCompleteView
+
+urlpatterns = [
+    path('tasks/', TaskListCreateView.as_view(), name='task-list-create'),
+    path('tasks/<int:pk>/', TaskDetailView.as_view(), name='task-detail'),
+    path('tasks/<int:pk>/complete/', MarkTaskCompleteView.as_view(), name='task-complete'),
+]
