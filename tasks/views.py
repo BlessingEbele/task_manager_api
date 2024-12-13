@@ -40,3 +40,57 @@ class MarkTaskCompleteView(APIView):
             return Response({'message': 'Task marked as complete'}, status=status.HTTP_200_OK)
         except Task.DoesNotExist:
             return Response({'error': 'Task not found'}, status=status.HTTP_404_NOT_FOUND)
+
+
+#new update after proof of concepts is activated 
+#creates task endpoint
+
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
+from django.views import View
+import json
+from .models import Task
+
+@method_decorator(csrf_exempt, name='dispatch')
+class TaskCreateView(View):
+    def post(self, request):
+        try:
+            data = json.loads(request.body)
+            task = Task.objects.create(
+                title=data['title'],
+                description=data['description'],
+                status=data.get('status', 'incomplete'),
+            )
+            return JsonResponse({
+                "id": task.id,
+                "title": task.title,
+                "description": task.description,
+                "status": task.status,
+                "created_at": task.created_at
+            }, status=201)
+        except KeyError as e:
+            return JsonResponse({"error": f"Missing key: {e}"}, status=400)
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=500)
+
+
+#retrive all task endpoint 
+
+class TaskListView(View):
+    def get(self, request):
+        tasks = Task.objects.all()
+        tasks_list = [
+            {
+                "id": task.id,
+                "title": task.title,
+                "description": task.description,
+                "status": task.status,
+                "created_at": task.created_at
+            }
+            for task in tasks
+        ]
+        return JsonResponse(tasks_list, safe=False)
+
+
+
