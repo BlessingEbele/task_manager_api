@@ -27,23 +27,21 @@ urlpatterns = [
 ]
 
 # from django.contrib import admin
-# from django.urls import path
 
 # urlpatterns = [
 #     path('admin/', admin.site.urls),
 # ]
-# ]from django.urls import path
-# from rest_framework_simplejwt.views import (
-#     TokenObtainPairView,
-#     TokenRefreshView,
-# )
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+)
 
-# urlpatterns = [
-#     # Other URLs...
-#     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-#     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-# ]
-# from django.urls import path
+urlpatterns = [
+    # Other URLs...
+    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+]
+
 # from .views import ProtectedView
 
 # urlpatterns = [

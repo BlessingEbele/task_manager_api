@@ -86,3 +86,26 @@ class TaskListView(View):
         ]
         return JsonResponse(tasks_list, safe=False)
 
+
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from .models import Task
+
+@api_view(['GET', 'POST'])
+@permission_classes([IsAuthenticated])
+def tasks_view(request):
+    if request.method == 'GET':
+        tasks = Task.objects.all()
+        data = [{"id": task.id, "title": task.title, "description": task.description} for task in tasks]
+        return Response(data)
+
+    elif request.method == 'POST':
+        data = request.data
+        task = Task.objects.create(
+            title=data.get('title'),
+            description=data.get('description'),
+            priority=data.get('priority'),
+            deadline=data.get('deadline'),
+        )
+        return Response({"message": "Task created successfully", "id": task.id}, status=201)
